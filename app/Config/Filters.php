@@ -35,8 +35,14 @@ class Filters extends BaseFilters
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
         'inactivity' => \App\Filters\InactivityFilter::class,
-        'rolefilter' => \App\Filters\RoleFilter::class,
+        
         'csp' => \App\Filters\CspFilter::class,
+        'login' => \App\Filters\LoginFilter::class,
+    'csrf'          => \CodeIgniter\Filters\CSRF::class,
+    'toolbar'       => \CodeIgniter\Filters\DebugToolbar::class,
+    'honeypot'      => \CodeIgniter\Filters\Honeypot::class,
+    'login'         => \App\Filters\LoginFilter::class,   // ADD THIS LINE
+
     ];
 
     /**
@@ -54,7 +60,7 @@ class Filters extends BaseFilters
      */
     public array $required = [
         'before' => [
-            'forcehttps', // Force Global Secure Requests
+          // 'forcehttps',  // ✅ COMMENTED OUT
             'pagecache',  // Web Page Caching
         ],
         'after' => [
@@ -74,7 +80,7 @@ class Filters extends BaseFilters
         'before' => [
             'inactivity' => ['except' => ['login', 'login/*', 'auth/*']], // adjust paths as needed
             'honeypot',
-            'csrf',
+           // 'csrf',  // COMMENT THIS OUT - DISABLE CSRF
             'invalidchars',
         ],
         'after' => [
