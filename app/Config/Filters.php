@@ -35,6 +35,7 @@ class Filters extends BaseFilters
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
         'inactivity' => \App\Filters\InactivityFilter::class,
+         'role'  => \App\Filters\RoleFilter::class,  
         
         'csp' => \App\Filters\CspFilter::class,
         'login' => \App\Filters\LoginFilter::class,

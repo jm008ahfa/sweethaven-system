@@ -17,5 +17,10 @@ class BaseController extends Controller
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
         parent::initController($request, $response, $logger);
+        
+        // Start session if not already started
+        if (!session_id()) {
+            session();
+        }
     }
 }

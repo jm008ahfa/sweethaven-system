@@ -21,9 +21,22 @@ class Auth extends BaseController
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
         
+        // Find user by username
         $user = $model->where('username', $username)->first();
         
+        // Debug - Uncomment if needed
+        // echo "Username: " . $username . "<br>";
+        // echo "Password entered: " . $password . "<br>";
+        // if($user) {
+        //     echo "User found: " . $user['username'] . "<br>";
+        //     echo "Role: " . $user['role'] . "<br>";
+        //     echo "Stored hash: " . $user['password'] . "<br>";
+        //     echo "Password verify: " . (password_verify($password, $user['password']) ? "TRUE" : "FALSE");
+        // }
+        // exit;
+        
         if ($user && password_verify($password, $user['password'])) {
+            // Set session
             session()->set([
                 'id' => $user['id'],
                 'name' => $user['name'],
@@ -31,10 +44,13 @@ class Auth extends BaseController
                 'role' => $user['role'],
                 'logged_in' => true
             ]);
-            return redirect()->to('/dashboard')->with('success', 'Welcome back, ' . $user['name'] . '!');
+            
+            // Redirect based on role
+            return redirect()->to('/dashboard')->with('success', 'Welcome ' . $user['name'] . '! You are logged in as ' . strtoupper($user['role']));
         }
         
-        return redirect()->to('/login')->with('error', 'Invalid username or password');
+        // If login fails
+        return redirect()->to('/login')->with('error', 'Invalid username or password. Try: admin/admin123 or staff/staff123');
     }
     
     public function register()
@@ -46,11 +62,13 @@ class Auth extends BaseController
     {
         $model = new UserModel();
         
+        // Check if username already exists
         $existing = $model->where('username', $this->request->getPost('username'))->first();
         if ($existing) {
-            return redirect()->back()->with('error', 'Username already exists');
+            return redirect()->back()->with('error', 'Username already exists. Please choose another.');
         }
         
+        // Create new user (always staff by default)
         $model->insert([
             'username' => $this->request->getPost('username'),
             'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
@@ -58,12 +76,12 @@ class Auth extends BaseController
             'role' => 'staff'
         ]);
         
-        return redirect()->to('/login')->with('success', 'Registration successful! Please login.');
+        return redirect()->to('/login')->with('success', 'Registration successful! You can now login as staff member.');
     }
     
     public function logout()
     {
         session()->destroy();
-        return redirect()->to('/login')->with('success', 'Logged out successfully');
+        return redirect()->to('/login')->with('success', 'You have been logged out successfully.');
     }
 }

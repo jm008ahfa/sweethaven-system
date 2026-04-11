@@ -10,10 +10,14 @@ class LoginFilter implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
+        // Check if user is logged in
         if (!session()->get('logged_in')) {
-            return redirect()->to('/login')->with('error', 'Please login first');
+            return redirect()->to('/login')->with('error', 'Please login first.');
         }
     }
 
-    public function after(RequestInterface $request, ResponseInterface $response, $arguments = null) {}
+    public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
+    {
+        // Do nothing
+    }
 }
