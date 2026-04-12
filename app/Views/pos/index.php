@@ -12,164 +12,260 @@
             padding: 0;
             box-sizing: border-box;
         }
+        
         body {
-            background: #f0f2f5;
+            background: #f5f5f5;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+        
         .navbar {
-            background: #2C3E50;
-            padding: 15px 0;
-            color: white;
+            background: #2c3e50;
+            padding: 12px 0;
         }
+        
+        .navbar a {
+            color: white;
+            text-decoration: none;
+        }
+        
         .container {
             max-width: 1400px;
             margin: 20px auto;
             padding: 0 20px;
         }
-        .product-card {
+        
+        .products-panel {
             background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            max-height: 550px;
+            overflow-y: auto;
+        }
+        
+        .product-item {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
             border-radius: 10px;
             padding: 15px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
+            transition: all 0.2s;
         }
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            background: #fff9f5;
+        
+        .product-item:hover {
+            background: #fff3e6;
+            border-color: #ff6b35;
+            transform: translateY(-3px);
         }
+        
         .product-name {
             font-weight: bold;
-            font-size: 16px;
-            margin-bottom: 10px;
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: #333;
         }
+        
         .product-price {
             color: #ff6b35;
-            font-size: 20px;
-            font-weight: bold;
-        }
-        .cart-table {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .cart-table th {
-            background: #ff6b35;
-            color: white;
-            padding: 12px;
-        }
-        .cart-table td {
-            padding: 12px;
-            vertical-align: middle;
-        }
-        .total-row {
-            background: #f8f9fa;
-            font-weight: bold;
             font-size: 18px;
+            font-weight: bold;
         }
-        .quantity-input {
-            width: 60px;
-            text-align: center;
-            padding: 5px;
+        
+        .product-stock {
+            font-size: 12px;
+            color: #666;
+            margin-top: 8px;
         }
-        .btn-add {
+        
+        .stock-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 10px;
+            margin-top: 5px;
+        }
+        
+        .stock-available {
             background: #28a745;
             color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
         }
-        .btn-add:hover {
-            background: #218838;
+        
+        .stock-low {
+            background: #ffc107;
+            color: #333;
         }
-        .checkout-card {
+        
+        .stock-out {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .product-disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: #e9ecef;
+        }
+        
+        .order-panel {
             background: white;
             border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             position: sticky;
             top: 20px;
         }
-        .amount-display {
-            font-size: 32px;
+        
+        .order-header {
+            background: #ff6b35;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px 10px 0 0;
+        }
+        
+        .order-body {
+            padding: 20px;
+            min-height: 300px;
+        }
+        
+        .empty-cart {
+            text-align: center;
+            padding: 50px 20px;
+            color: #999;
+        }
+        
+        .cart-table {
+            width: 100%;
+            font-size: 14px;
+        }
+        
+        .cart-table th {
+            text-align: left;
+            padding: 10px 5px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .cart-table td {
+            padding: 12px 5px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .quantity-btn {
+            width: 28px;
+            height: 28px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .btn-minus {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .btn-plus {
+            background: #28a745;
+            color: white;
+        }
+        
+        .remove-btn {
+            background: none;
+            border: none;
+            color: #dc3545;
+            cursor: pointer;
+        }
+        
+        .order-footer {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 0 0 10px 10px;
+        }
+        
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-top: 15px;
+            border-top: 2px solid #dee2e6;
+        }
+        
+        .total-amount {
+            font-size: 28px;
             font-weight: bold;
             color: #ff6b35;
-            text-align: center;
-            margin: 20px 0;
         }
-        .alert {
+        
+        .payment-input {
+            width: 100%;
             padding: 12px;
-            border-radius: 5px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .change-row {
+            background: #e8f5e9;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .btn-checkout {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 14px;
+            width: 100%;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        
+        .btn-clear {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .alert {
+            padding: 12px 15px;
+            border-radius: 8px;
             margin-bottom: 20px;
         }
+        
         .alert-success {
             background: #d4edda;
             color: #155724;
             border-left: 4px solid #28a745;
         }
-        .alert-error {
+        
+        .alert-danger {
             background: #f8d7da;
             color: #721c24;
             border-left: 4px solid #dc3545;
         }
-        .btn-checkout {
-            background: #ff6b35;
-            color: white;
-            border: none;
-            padding: 12px;
-            width: 100%;
-            font-size: 18px;
-            font-weight: bold;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .btn-checkout:hover {
-            background: #e55a2b;
-        }
-        .btn-clear {
-            background: #dc3545;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .quantity-control {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .quantity-control button {
-            width: 30px;
-            height: 30px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        .btn-minus {
-            background: #dc3545;
-            color: white;
-        }
-        .btn-plus {
-            background: #28a745;
-            color: white;
-        }
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 15px;
-            max-height: 500px;
-            overflow-y: auto;
-            padding: 10px;
-        }
+        
         @media (max-width: 768px) {
-            .products-grid {
+            .product-grid {
                 grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
             }
         }
@@ -178,13 +274,11 @@
 <body>
     <nav class="navbar">
         <div class="container" style="display: flex; justify-content: space-between;">
-            <a href="<?= base_url('/pos') ?>" style="color: #ff6b35; font-size: 24px; text-decoration: none;">
-                🧮 POS System
-            </a>
+            <a href="<?= base_url('/pos') ?>" style="font-size: 20px; font-weight: bold;">🍰 Bakeshop POS</a>
             <div>
-                <span style="color: white;">👤 <?= session()->get('name') ?></span>
-                <a href="<?= base_url('/dashboard') ?>" style="color: white; margin-left: 20px; text-decoration: none;">Dashboard</a>
-                <a href="<?= base_url('/logout') ?>" style="background: #dc3545; padding: 5px 15px; border-radius: 5px; color: white; text-decoration: none; margin-left: 20px;">Logout</a>
+                <span>👤 <?= session()->get('name') ?></span>
+                <a href="<?= base_url('/dashboard') ?>" style="margin-left: 20px;">Dashboard</a>
+                <a href="<?= base_url('/logout') ?>" style="background: #dc3545; padding: 5px 12px; border-radius: 5px; margin-left: 15px;">Logout</a>
             </div>
         </div>
     </nav>
@@ -195,177 +289,151 @@
         <?php endif; ?>
         
         <?php if(session()->getFlashdata('error')): ?>
-            <div class="alert alert-error">❌ <?= session()->getFlashdata('error') ?></div>
+            <div class="alert alert-danger">❌ <?= session()->getFlashdata('error') ?></div>
         <?php endif; ?>
 
         <div class="row">
-            <!-- Products Section -->
             <div class="col-md-7">
-                <div class="cart-table" style="margin-bottom: 20px; padding: 15px;">
-                    <h5><i class="fas fa-search"></i> Click on any product to add</h5>
-                    <div class="products-grid">
+                <div class="products-panel">
+                    <h4><i class="fas fa-cake-candles"></i> Products</h4>
+                    <div class="product-grid">
                         <?php foreach($products as $product): ?>
-                            <div class="product-card" onclick="addToCart(<?= $product['id'] ?>, 1)">
-                                <div class="product-name"><?= $product['name'] ?></div>
-                                <div class="product-price">₱<?= number_format($product['price'], 2) ?></div>
-                                <small>Stock: <?= $product['stock'] ?></small>
-                            </div>
+                            <?php if($product['stock'] > 0): ?>
+                                <div class="product-item" onclick="addToCart(<?= $product['id'] ?>, 1)">
+                                    <div class="product-name"><?= $product['name'] ?></div>
+                                    <div class="product-price">₱<?= number_format($product['price'], 2) ?></div>
+                                    <div class="product-stock">
+                                        Stock: <?= $product['stock'] ?>
+                                        <?php if($product['stock'] <= 5): ?>
+                                            <span class="stock-badge stock-low">Low Stock!</span>
+                                        <?php else: ?>
+                                            <span class="stock-badge stock-available">Available</span>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            <?php else: ?>
+                                <div class="product-item product-disabled">
+                                    <div class="product-name"><?= $product['name'] ?></div>
+                                    <div class="product-price">₱<?= number_format($product['price'], 2) ?></div>
+                                    <div class="product-stock">
+                                        <span class="stock-badge stock-out">Out of Stock</span>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
                         <?php endforeach; ?>
                     </div>
                 </div>
             </div>
 
-            <!-- Cart Section -->
             <div class="col-md-5">
-                <div class="checkout-card">
-                    <h4><i class="fas fa-shopping-cart"></i> Current Order</h4>
-                    <hr>
+                <div class="order-panel">
+                    <div class="order-header">
+                        <h4><i class="fas fa-shopping-cart"></i> Current Order</h4>
+                    </div>
                     
-                    <?php if(empty($cart)): ?>
-                        <p class="text-muted text-center">Cart is empty. Click on products to add.</p>
-                    <?php else: ?>
-                        <div style="max-height: 400px; overflow-y: auto;">
-                            <table class="table table-sm">
+                    <div class="order-body">
+                        <?php if(empty($cart)): ?>
+                            <div class="empty-cart">
+                                <i class="fas fa-shopping-basket" style="font-size: 48px;"></i>
+                                <p>Cart is empty</p>
+                                <small>Click on products to add</small>
+                            </div>
+                        <?php else: ?>
+                            <table class="cart-table">
                                 <thead>
-                                    <tr>
-                                        <th>Item</th>
-                                        <th>Qty</th>
-                                        <th>Price</th>
-                                        <th>Total</th>
-                                        <th></th>
-                                    </tr>
+                                    <tr><th>Item</th><th>Qty</th><th>Total</th><th></th></tr>
                                 </thead>
                                 <tbody>
                                     <?php foreach($cart as $item): ?>
                                     <tr>
-                                        <td><?= $item['name'] ?></td>
+                                        <td><?= $item['name'] ?><br><small>₱<?= number_format($item['price'], 2) ?> ea</small></td>
                                         <td>
                                             <div class="quantity-control">
-                                                <button class="btn-minus" onclick="updateQuantity(<?= $item['id'] ?>, <?= $item['quantity'] - 1 ?>)">-</button>
-                                                <span style="width: 30px; text-align: center;"><?= $item['quantity'] ?></span>
-                                                <button class="btn-plus" onclick="updateQuantity(<?= $item['id'] ?>, <?= $item['quantity'] + 1 ?>)">+</button>
+                                                <button class="quantity-btn btn-minus" onclick="updateQuantity(<?= $item['id'] ?>, <?= $item['quantity'] - 1 ?>)">-</button>
+                                                <span><?= $item['quantity'] ?></span>
+                                                <button class="quantity-btn btn-plus" onclick="updateQuantity(<?= $item['id'] ?>, <?= $item['quantity'] + 1 ?>)">+</button>
                                             </div>
                                         </td>
-                                        <td>₱<?= number_format($item['price'], 2) ?></td>
-                                        <td>₱<?= number_format($item['price'] * $item['quantity'], 2) ?></td>
-                                        <td>
-                                            <button class="btn btn-sm btn-danger" onclick="removeItem(<?= $item['id'] ?>)">✕</button>
-                                        </td>
+                                        <td class="item-total">₱<?= number_format($item['price'] * $item['quantity'], 2) ?></td>
+                                        <td><button class="remove-btn" onclick="removeItem(<?= $item['id'] ?>);">🗑️</button></td>
                                     </tr>
                                     <?php endforeach; ?>
                                 </tbody>
-                                <tfoot>
-                                    <tr class="total-row">
-                                        <td colspan="3"><strong>SUBTOTAL</strong></td>
-                                        <td><strong>₱<?= number_format($subtotal, 2) ?></strong></td>
-                                        <td></td>
-                                    </tr>
-                                </tfoot>
                             </table>
+                        <?php endif; ?>
+                    </div>
+                    
+                    <div class="order-footer">
+                        <div class="total-row">
+                            <span><strong>TOTAL</strong></span>
+                            <span class="total-amount">₱<?= number_format($subtotal, 2) ?></span>
                         </div>
                         
-                        <hr>
-                        
-                        <form action="<?= base_url('/pos/checkout') ?>" method="post" id="checkoutForm">
-                            <div class="form-group">
-                                <label>Payment Amount (₱)</label>
-                                <input type="number" step="0.01" id="payment" name="payment" class="form-control" required 
-                                       oninput="calculateChange()" placeholder="Enter payment amount">
-                            </div>
-                            <div class="form-group">
-                                <label>Change (₱)</label>
-                                <input type="text" id="change" class="form-control" readonly style="background: #e9ecef; font-size: 20px; font-weight: bold;">
-                            </div>
-                            <div class="amount-display" id="totalDisplay">
-                                Total: ₱<?= number_format($subtotal, 2) ?>
-                            </div>
-                            <button type="submit" class="btn-checkout">
-                                <i class="fas fa-check-circle"></i> Complete Sale
-                            </button>
-                            <a href="<?= base_url('/pos/clearCart') ?>" class="btn-clear" style="display: block; text-align: center; margin-top: 10px; text-decoration: none;">
-                                <i class="fas fa-trash"></i> Clear Cart
-                            </a>
-                        </form>
-                    <?php endif; ?>
+                        <?php if(!empty($cart)): ?>
+                            <form action="<?= base_url('/pos/checkout') ?>" method="post">
+                                <input type="number" step="0.01" name="payment" class="payment-input" 
+                                       placeholder="Enter payment amount" required oninput="calculateChange(this.value, <?= $subtotal ?>)">
+                                <div class="change-row" id="changeRow" style="display: none;">
+                                    <span>Change:</span>
+                                    <span id="changeAmount">₱0.00</span>
+                                </div>
+                                <button type="submit" class="btn-checkout">✅ Complete Sale</button>
+                            </form>
+                            <button onclick="clearCart()" class="btn-clear">🗑️ Clear Cart</button>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Add to cart function
         function addToCart(product_id, quantity) {
             const form = document.createElement('form');
             form.method = 'POST';
             form.action = '<?= base_url('/pos/addToCart') ?>';
-            
-            const productInput = document.createElement('input');
-            productInput.type = 'hidden';
-            productInput.name = 'product_id';
-            productInput.value = product_id;
-            
-            const quantityInput = document.createElement('input');
-            quantityInput.type = 'hidden';
-            quantityInput.name = 'quantity';
-            quantityInput.value = quantity;
-            
-            form.appendChild(productInput);
-            form.appendChild(quantityInput);
+            form.innerHTML = `<input type="hidden" name="product_id" value="${product_id}">
+                             <input type="hidden" name="quantity" value="${quantity}">`;
             document.body.appendChild(form);
             form.submit();
         }
         
-        // Update quantity function
         function updateQuantity(product_id, quantity) {
             if (quantity < 0) return;
-            
             const form = document.createElement('form');
             form.method = 'POST';
             form.action = '<?= base_url('/pos/updateCart') ?>';
-            
-            const productInput = document.createElement('input');
-            productInput.type = 'hidden';
-            productInput.name = 'product_id';
-            productInput.value = product_id;
-            
-            const quantityInput = document.createElement('input');
-            quantityInput.type = 'hidden';
-            quantityInput.name = 'quantity';
-            quantityInput.value = quantity;
-            
-            form.appendChild(productInput);
-            form.appendChild(quantityInput);
+            form.innerHTML = `<input type="hidden" name="product_id" value="${product_id}">
+                             <input type="hidden" name="quantity" value="${quantity}">`;
             document.body.appendChild(form);
             form.submit();
         }
         
-        // Remove item function
         function removeItem(product_id) {
-            if (confirm('Remove this item from cart?')) {
+            if (confirm('Remove this item?')) {
                 window.location.href = '<?= base_url('/pos/removeFromCart/') ?>' + product_id;
             }
         }
         
-        // Calculate change function
-        function calculateChange() {
-            const total = <?= $subtotal ?>;
-            const payment = document.getElementById('payment').value;
-            const change = payment - total;
-            
-            if (change >= 0) {
-                document.getElementById('change').value = '₱' + change.toFixed(2);
-            } else {
-                document.getElementById('change').value = 'Insufficient payment';
+        function clearCart() {
+            if (confirm('Clear entire cart?')) {
+                window.location.href = '<?= base_url('/pos/clearCart') ?>';
             }
         }
         
-        // Auto-calculate on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            const paymentInput = document.getElementById('payment');
-            if (paymentInput) {
-                paymentInput.addEventListener('input', calculateChange);
+        function calculateChange(payment, total) {
+            const changeRow = document.getElementById('changeRow');
+            const changeAmount = document.getElementById('changeAmount');
+            payment = parseFloat(payment);
+            
+            if (!isNaN(payment) && payment >= total) {
+                const change = payment - total;
+                changeAmount.innerHTML = '₱' + change.toFixed(2);
+                changeRow.style.display = 'flex';
+            } else {
+                changeRow.style.display = 'none';
             }
-        });
+        }
     </script>
 </body>
 </html>

@@ -8,27 +8,36 @@ class Pos extends BaseController
 {
     public function index()
     {
-        // Check if logged in
         if (!session()->get('logged_in')) {
             return redirect()->to('/login');
         }
         
         $productModel = new ProductModel();
-        $data['products'] = $productModel->findAll();
+        // Get unique products only
+        $data['products'] = $productModel->distinct()->orderBy('name', 'ASC')->findAll();
         
         // Get cart from session
-        $data['cart'] = session()->get('cart') ?? [];
+        $cart = session()->get('cart') ?? [];
         
-        // Calculate totals
+        // Clean cart - remove any items with quantity 0
+        foreach ($cart as $key => $item) {
+            if ($item['quantity'] <= 0) {
+                unset($cart[$key]);
+            }
+        }
+        session()->set('cart', $cart);
+        
+        $data['cart'] = $cart;
+        
+        // Calculate subtotal
         $data['subtotal'] = 0;
-        foreach ($data['cart'] as $item) {
+        foreach ($cart as $item) {
             $data['subtotal'] += $item['price'] * $item['quantity'];
         }
         
         return view('pos/index', $data);
     }
     
-    // Add item to cart
     public function addToCart()
     {
         $product_id = $this->request->getPost('product_id');
@@ -40,11 +49,19 @@ class Pos extends BaseController
         if ($product) {
             $cart = session()->get('cart') ?? [];
             
+            // Check if product already in cart
             if (isset($cart[$product_id])) {
-                // Update quantity if already in cart
-                $cart[$product_id]['quantity'] += $quantity;
+                // Update quantity
+                $newQty = $cart[$product_id]['quantity'] + $quantity;
+                if ($newQty > $product['stock']) {
+                    return redirect()->to('/pos')->with('error', 'Not enough stock for ' . $product['name']);
+                }
+                $cart[$product_id]['quantity'] = $newQty;
             } else {
-                // Add new item to cart
+                // Add new product
+                if ($quantity > $product['stock']) {
+                    return redirect()->to('/pos')->with('error', 'Not enough stock for ' . $product['name']);
+                }
                 $cart[$product_id] = [
                     'id' => $product['id'],
                     'name' => $product['name'],
@@ -54,23 +71,27 @@ class Pos extends BaseController
             }
             
             session()->set('cart', $cart);
-            return redirect()->to('/pos')->with('success', $product['name'] . ' added to cart!');
+            return redirect()->to('/pos')->with('success', $product['name'] . ' added!');
         }
         
         return redirect()->to('/pos')->with('error', 'Product not found');
     }
     
-    // Update cart item quantity
     public function updateCart()
     {
         $product_id = $this->request->getPost('product_id');
         $quantity = $this->request->getPost('quantity');
         
+        $productModel = new ProductModel();
+        $product = $productModel->find($product_id);
         $cart = session()->get('cart') ?? [];
         
         if ($quantity <= 0) {
             unset($cart[$product_id]);
         } else {
+            if ($product && $quantity > $product['stock']) {
+                return redirect()->to('/pos')->with('error', 'Only ' . $product['stock'] . ' available for ' . $product['name']);
+            }
             $cart[$product_id]['quantity'] = $quantity;
         }
         
@@ -78,24 +99,20 @@ class Pos extends BaseController
         return redirect()->to('/pos')->with('success', 'Cart updated');
     }
     
-    // Remove item from cart
     public function removeFromCart($product_id)
     {
         $cart = session()->get('cart') ?? [];
         unset($cart[$product_id]);
         session()->set('cart', $cart);
-        
-        return redirect()->to('/pos')->with('success', 'Item removed from cart');
+        return redirect()->to('/pos')->with('success', 'Item removed');
     }
     
-    // Clear entire cart
     public function clearCart()
     {
         session()->remove('cart');
         return redirect()->to('/pos')->with('success', 'Cart cleared');
     }
     
-    // Checkout - calculate total and payment
     public function checkout()
     {
         $cart = session()->get('cart') ?? [];
@@ -104,6 +121,8 @@ class Pos extends BaseController
             return redirect()->to('/pos')->with('error', 'Cart is empty');
         }
         
+        $productModel = new ProductModel();
+        
         // Calculate total
         $total = 0;
         foreach ($cart as $item) {
@@ -111,27 +130,37 @@ class Pos extends BaseController
         }
         
         $payment = $this->request->getPost('payment');
+        
+        if ($payment < $total) {
+            return redirect()->to('/pos')->with('error', 'Insufficient payment');
+        }
+        
         $change = $payment - $total;
         
-        // Here you can save to database if needed
-        // For now, just show receipt
+        // Subtract stock for each product
+        foreach ($cart as $item) {
+            $product = $productModel->find($item['id']);
+            if ($product) {
+                $newStock = $product['stock'] - $item['quantity'];
+                $productModel->update($item['id'], ['stock' => $newStock]);
+            }
+        }
         
-        session()->setFlashdata('receipt', [
+        $receipt = [
             'cart' => $cart,
             'total' => $total,
             'payment' => $payment,
             'change' => $change,
             'date' => date('Y-m-d H:i:s'),
             'staff' => session()->get('name')
-        ]);
+        ];
         
-        // Clear cart after checkout
         session()->remove('cart');
+        session()->setFlashdata('receipt', $receipt);
         
-        return redirect()->to('/pos/receipt');
+        return redirect()->to('/pos/receipt')->with('success', 'Sale completed!');
     }
     
-    // Show receipt
     public function receipt()
     {
         $receipt = session()->getFlashdata('receipt');
