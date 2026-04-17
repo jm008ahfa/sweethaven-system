@@ -41,3 +41,6 @@ $routes->get('/pos/clearCart', 'Pos::clearCart', ['filter' => 'login']);
 $routes->post('/pos/checkout', 'Pos::checkout', ['filter' => 'login']);
 $routes->get('/pos/receipt', 'Pos::receipt', ['filter' => 'login']);
 $routes->get('/pos', 'Pos::index', ['filter' => 'login']);
+
+// Product view route
+$routes->get('/products/view/(:num)', 'Product::view/$1', ['filter' => 'login']);
