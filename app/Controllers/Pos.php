@@ -7,36 +7,31 @@ use App\Models\ProductModel;
 class Pos extends BaseController
 {
     public function index()
-    {
-        if (!session()->get('logged_in')) {
-            return redirect()->to('/login');
-        }
-        
-        $productModel = new ProductModel();
-        // Get unique products only
-        $data['products'] = $productModel->distinct()->orderBy('name', 'ASC')->findAll();
-        
-        // Get cart from session
-        $cart = session()->get('cart') ?? [];
-        
-        // Clean cart - remove any items with quantity 0
-        foreach ($cart as $key => $item) {
-            if ($item['quantity'] <= 0) {
-                unset($cart[$key]);
-            }
-        }
-        session()->set('cart', $cart);
-        
-        $data['cart'] = $cart;
-        
-        // Calculate subtotal
-        $data['subtotal'] = 0;
-        foreach ($cart as $item) {
-            $data['subtotal'] += $item['price'] * $item['quantity'];
-        }
-        
-        return view('pos/index', $data);
+{
+    if (!session()->get('logged_in')) {
+        return redirect()->to('/login');
     }
+    
+    $productModel = new ProductModel();
+    $products = $productModel->findAll();
+    
+    // Ensure ingredients is set for all products
+    foreach ($products as &$product) {
+        if (!isset($product['ingredients']) || $product['ingredients'] === null) {
+            $product['ingredients'] = 'No ingredients listed';
+        }
+    }
+    
+    $data['products'] = $products;
+    $data['cart'] = session()->get('cart') ?? [];
+    
+    $data['subtotal'] = 0;
+    foreach ($data['cart'] as $item) {
+        $data['subtotal'] += $item['price'] * $item['quantity'];
+    }
+    
+    return view('pos/index', $data);
+}
     
     public function addToCart()
     {

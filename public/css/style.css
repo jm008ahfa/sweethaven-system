@@ -297,4 +297,23 @@ tr:hover {
     table {
         font-size: 12px;
     }
+
+    .product-item {
+    position: relative;
+}
+.product-item:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 11px;
+    white-space: nowrap;
+    z-index: 100;
+    margin-bottom: 5px;
+}
 }

@@ -318,7 +318,17 @@
                                     <div class="product-stock">
                                         <span class="stock-badge stock-out">Out of Stock</span>
                                     </div>
-                                </div>
+                                </div> 
+     <div class="product-item" onclick="addToCart(<?= $product['id'] ?>, 1)" 
+     title="Ingredients: <?= isset($product['ingredients']) ? htmlspecialchars($product['ingredients']) : 'No ingredients listed' ?>">
+    <div class="product-name"><?= $product['name'] ?></div>
+    <div class="product-price">₱<?= number_format($product['price'], 2) ?></div>
+    <div class="product-stock">Stock: <?= $product['stock'] ?></div>
+    <div class="ingredients-hint" style="font-size: 10px; color: #888; margin-top: 5px;">
+        <i class="fas fa-info-circle"></i> 
+        <?= isset($product['ingredients']) && $product['ingredients'] != 'No ingredients listed' ? 'Hover for ingredients' : 'No ingredients' ?>
+    </div>
+</div>
                             <?php endif; ?>
                         <?php endforeach; ?>
                     </div>

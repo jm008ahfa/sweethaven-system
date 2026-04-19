@@ -8,31 +8,59 @@ class ProductModel extends Model
 {
     protected $table = 'products';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['name', 'price', 'stock'];
+    protected $allowedFields = ['name', 'price', 'stock', 'ingredients', 'category'];
     protected $useTimestamps = false;
+    protected $defaults = [
+        'ingredients' => 'No ingredients listed'
+    ];
     
-    // Get all products (no duplicates)
+    // Get all products with safe ingredients
     public function getAllProducts()
     {
-        return $this->distinct()
-                    ->orderBy('id', 'ASC')
-                    ->findAll();
-    }
-    
-    // Get product by name (to prevent duplicates)
-    public function getProductByName($name)
-    {
-        return $this->where('name', $name)->first();
-    }
-    
-    // Check if enough stock is available
-    public function hasEnoughStock($product_id, $quantity)
-    {
-        $product = $this->find($product_id);
-        if ($product) {
-            return $product['stock'] >= $quantity;
+        $products = $this->orderBy('name', 'ASC')->findAll();
+        
+        // Ensure ingredients is never null
+        foreach ($products as &$product) {
+            if (!isset($product['ingredients']) || $product['ingredients'] === null || $product['ingredients'] === '') {
+                $product['ingredients'] = 'No ingredients listed';
+            }
         }
-        return false;
+        
+        return $products;
+    }
+    
+    // Get single product with safe ingredients
+    public function getProduct($id)
+    {
+        $product = $this->find($id);
+        if ($product && (!isset($product['ingredients']) || $product['ingredients'] === null || $product['ingredients'] === '')) {
+            $product['ingredients'] = 'No ingredients listed';
+        }
+        return $product;
+    }
+    
+    // Get products by category
+    public function getByCategory($category)
+    {
+        $products = $this->where('category', $category)->findAll();
+        foreach ($products as &$product) {
+            if (!isset($product['ingredients']) || $product['ingredients'] === null) {
+                $product['ingredients'] = 'No ingredients listed';
+            }
+        }
+        return $products;
+    }
+    
+    // Get low stock products
+    public function getLowStock($threshold = 10)
+    {
+        $products = $this->where('stock <=', $threshold)->findAll();
+        foreach ($products as &$product) {
+            if (!isset($product['ingredients']) || $product['ingredients'] === null) {
+                $product['ingredients'] = 'No ingredients listed';
+            }
+        }
+        return $products;
     }
     
     // Subtract stock
@@ -44,5 +72,19 @@ class ProductModel extends Model
             return $this->update($product_id, ['stock' => $newStock]);
         }
         return false;
+    }
+    
+    // Search products
+    public function search($keyword)
+    {
+        $products = $this->like('name', $keyword)
+                    ->orLike('ingredients', $keyword)
+                    ->findAll();
+        foreach ($products as &$product) {
+            if (!isset($product['ingredients']) || $product['ingredients'] === null) {
+                $product['ingredients'] = 'No ingredients listed';
+            }
+        }
+        return $products;
     }
 }
