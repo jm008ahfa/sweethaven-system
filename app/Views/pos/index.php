@@ -274,7 +274,12 @@
 <body>
     <nav class="navbar">
         <div class="container" style="display: flex; justify-content: space-between;">
-            <a href="<?= base_url('/pos') ?>" style="font-size: 20px; font-weight: bold;">🍰 Bakeshop POS</a>
+            <!-- Change navbar brand -->
+<a href="<?= base_url('/pos') ?>" style="font-size: 20px; font-weight: bold;">🍰 Bensan Bakeshop POS</a>
+
+<!-- Change any "Sweet Haven" text to "Bensan Bakeshop" -->
+
+
             <div>
                 <span>👤 <?= session()->get('name') ?></span>
                 <a href="<?= base_url('/dashboard') ?>" style="margin-left: 20px;">Dashboard</a>

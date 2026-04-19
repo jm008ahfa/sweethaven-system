@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Bakeshop System</title>
+    <title>Dashboard - Bensan Bakeshop</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             background: #f4f4f4;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         .navbar {
-            background: #333;
-            color: white;
+            background: #3E2723;
             padding: 15px 0;
+            color: white;
         }
         .container {
             max-width: 1200px;
@@ -29,27 +29,28 @@
         .stat-box {
             background: white;
             padding: 20px;
-            border-radius: 5px;
+            border-radius: 10px;
             text-align: center;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             cursor: pointer;
+            border-bottom: 4px solid #D2691E;
         }
         .stat-number {
             font-size: 32px;
             font-weight: bold;
-            color: #ff6b35;
+            color: #D2691E;
         }
         .card {
             background: white;
-            border-radius: 5px;
+            border-radius: 10px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             margin-bottom: 20px;
         }
         .card-header {
-            background: #ff6b35;
+            background: #D2691E;
             color: white;
             padding: 15px 20px;
-            border-radius: 5px 5px 0 0;
+            border-radius: 10px 10px 0 0;
         }
         .card-body {
             padding: 20px;
@@ -61,43 +62,41 @@
             text-decoration: none;
             margin: 5px;
         }
-        .btn-primary { background: #ff6b35; color: white; }
-        .btn-success { background: #28a745; color: white; }
-        .btn-danger { background: #dc3545; color: white; }
+        .btn-primary { background: #D2691E; color: white; }
+        .btn-success { background: #228B22; color: white; }
         .alert {
             padding: 12px 15px;
             border-radius: 5px;
             margin-bottom: 20px;
         }
         .alert-info {
-            background: #d1ecf1;
-            color: #0c5460;
-            border-left: 4px solid #17a2b8;
+            background: #E3F2FD;
+            color: #0D47A1;
+            border-left: 4px solid #2196F3;
         }
-        .badge {
-            display: inline-block;
-            padding: 5px 10px;
-            border-radius: 3px;
-            font-size: 12px;
-        }
-        .badge-admin { background: #dc3545; color: white; }
-        .badge-staff { background: #28a745; color: white; }
         .nav-links a {
             color: white;
             text-decoration: none;
             margin-left: 20px;
         }
         .btn-logout {
-            background: #dc3545;
+            background: #DC143C;
             padding: 5px 15px;
             border-radius: 5px;
+        }
+        .footer {
+            background: #3E2723;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
         }
         table {
             width: 100%;
             border-collapse: collapse;
         }
         th {
-            background: #333;
+            background: #3E2723;
             color: white;
             padding: 12px;
             text-align: left;
@@ -106,30 +105,37 @@
             padding: 10px 12px;
             border-bottom: 1px solid #ddd;
         }
-        tr:hover {
-            background: #f9f9f9;
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 12px;
         }
+        .badge-success { background: #228B22; color: white; }
+        .badge-warning { background: #FFA500; color: white; }
+        .badge-danger { background: #DC143C; color: white; }
     </style>
 </head>
 <body>
     <nav class="navbar">
         <div class="container" style="display: flex; justify-content: space-between;">
-            <a href="<?= base_url('/dashboard') ?>" style="color: #ff6b35; font-size: 24px; text-decoration: none;">🍰 Bakeshop System</a>
+            <a href="<?= base_url('/dashboard') ?>" style="color: #FFD700; font-size: 24px; text-decoration: none;">🍰 Bensan Bakeshop</a>
             <div class="nav-links">
                 <span style="color: white;">👤 <?= session()->get('name') ?></span>
                 <a href="<?= base_url('/products') ?>">Products</a>
+                <a href="<?= base_url('/pos') ?>">POS</a>
                 <?php if(session()->get('role') === 'admin'): ?>
-                    <a href="<?= base_url('/products/create') ?>" style="background: #28a745; padding: 5px 15px; border-radius: 5px;">➕ Add Product</a>
+                    <a href="<?= base_url('/products/create') ?>" style="background: #228B22; padding: 5px 15px; border-radius: 5px;">➕ Add Product</a>
                 <?php endif; ?>
                 <a href="<?= base_url('/logout') ?>" class="btn-logout">Logout</a>
-                <a href="<?= base_url('/pos') ?>">POS</a>
             </div>
         </div>
     </nav>
 
     <div class="container">
         <div class="alert alert-info">
-            <strong>👋 Welcome, <?= session()->get('name') ?>!</strong>
+            <strong>👋 Welcome to Bensan Bakeshop, <?= session()->get('name') ?>!</strong><br>
+            Quality baked goods made fresh daily since 2024.
         </div>
 
         <div class="stats">
@@ -154,11 +160,9 @@
             <div class="card-header">Quick Actions</div>
             <div class="card-body">
                 <a href="<?= base_url('/products') ?>" class="btn btn-primary">📋 View Products</a>
+                <a href="<?= base_url('/pos') ?>" class="btn btn-success">💰 Point of Sale</a>
                 <?php if(session()->get('role') === 'admin'): ?>
                     <a href="<?= base_url('/products/create') ?>" class="btn btn-success">➕ Add New Product</a>
-                    <a href="<?= base_url('/pos') ?>" class="btn btn-success" style="background: #17a2b8;">
-    🧮 POS System (Sell Products)
-</a>
                 <?php endif; ?>
             </div>
         </div>
@@ -167,14 +171,9 @@
             <div class="card-header">📦 Recent Products</div>
             <div class="card-body">
                 <div style="overflow-x: auto;">
-                    <table>
+                    <table class="table">
                         <thead>
-                            <tr>
-                                <th>Product Name</th>
-                                <th>Price</th>
-                                <th>Stock</th>
-                                <th>Status</th>
-                            </tr>
+                            <tr><th>Product Name</th><th>Price</th><th>Stock</th><th>Status</th></tr>
                         </thead>
                         <tbody>
                             <?php if(isset($recent_products) && !empty($recent_products)): ?>
@@ -184,18 +183,18 @@
                                     <td>₱<?= number_format($product['price'], 2) ?></td>
                                     <td><?= $product['stock'] ?></td>
                                     <td>
-                                        <?php if($product['stock'] > 0): ?>
-                                            <span class="badge" style="background: #28a745; color: white; padding: 3px 8px; border-radius: 3px;">In Stock</span>
+                                        <?php if($product['stock'] > 10): ?>
+                                            <span class="badge badge-success">In Stock</span>
+                                        <?php elseif($product['stock'] > 0): ?>
+                                            <span class="badge badge-warning">Low Stock</span>
                                         <?php else: ?>
-                                            <span class="badge" style="background: #dc3545; color: white; padding: 3px 8px; border-radius: 3px;">Out of Stock</span>
+                                            <span class="badge badge-danger">Out of Stock</span>
                                         <?php endif; ?>
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>
                             <?php else: ?>
-                                <tr>
-                                    <td colspan="4" style="text-align: center;">No products yet.</td>
-                                </tr>
+                                <tr><td colspan="4" style="text-align: center;">No products yet. <a href="<?= base_url('/products/create') ?>">Add your first product</a></td></tr>
                             <?php endif; ?>
                         </tbody>
                     </table>
@@ -203,5 +202,12 @@
             </div>
         </div>
     </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; <?= date('Y') ?> Bensan Bakeshop. All rights reserved.</p>
+            <p><small>Quality Baked Goods Since 2024 | Made with ❤️</small></p>
+        </div>
+    </footer>
 </body>
 </html>
