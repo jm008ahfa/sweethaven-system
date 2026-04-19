@@ -85,3 +85,4 @@ class Auth extends BaseController
         return redirect()->to('/login')->with('success', 'You have been logged out successfully.');
     }
 }
+
