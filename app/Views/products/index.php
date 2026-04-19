@@ -86,7 +86,7 @@
 <body>
     <nav class="navbar">
         <div class="container" style="display: flex; justify-content: space-between;">
-            <a href="<?= base_url('/dashboard') ?>" style="color: #ff6b35; font-size: 24px; text-decoration: none;">🍰 Bakeshop System</a>
+           <a href="<?= base_url('/dashboard') ?>" style="color: #FFD700; font-size: 24px; text-decoration: none;">🍰 Bensan Bakeshop</a>
             <div>
                 <span style="color: white;">👤 <?= session()->get('name') ?> (<?= session()->get('role') ?>)</span>
                 <a href="<?= base_url('/dashboard') ?>" style="color: white; margin-left: 20px;">Dashboard</a>

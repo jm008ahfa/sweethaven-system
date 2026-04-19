@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Bakeshop System</title>
+    <title>Login - Bensan Bakeshop</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -11,18 +12,18 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         .login-box {
             background: white;
             padding: 40px;
             border-radius: 10px;
-            width: 380px;
+            width: 400px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.2);
         }
         .login-box h2 {
             text-align: center;
-            color: #ff6b35;
+            color: #D2691E;
             margin-bottom: 30px;
         }
         .form-group {
@@ -42,7 +43,7 @@
         button {
             width: 100%;
             padding: 10px;
-            background: #ff6b35;
+            background: #D2691E;
             color: white;
             border: none;
             border-radius: 5px;
@@ -50,7 +51,7 @@
             font-size: 16px;
         }
         button:hover {
-            background: #e55a2b;
+            background: #A0522D;
         }
         .alert {
             padding: 10px;
@@ -72,14 +73,20 @@
             margin-top: 20px;
         }
         .register-link a {
-            color: #ff6b35;
+            color: #D2691E;
             text-decoration: none;
+        }
+        .bakeshop-tagline {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 12px;
+            color: #888;
         }
     </style>
 </head>
 <body>
     <div class="login-box">
-        <h2>🍰 Bakeshop System</h2>
+        <h2>🍰 Bensan Bakeshop</h2>
         
         <?php if(session()->getFlashdata('error')): ?>
             <div class="alert alert-danger"><?= session()->getFlashdata('error') ?></div>
@@ -103,6 +110,10 @@
         
         <div class="register-link">
             <a href="<?= base_url('/register') ?>">Create an account</a>
+        </div>
+        
+        <div class="bakeshop-tagline">
+            <i class="fas fa-heart" style="color: #D2691E;"></i> Quality Baked Goods Since 2024
         </div>
     </div>
 </body>

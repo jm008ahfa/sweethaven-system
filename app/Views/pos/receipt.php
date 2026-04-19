@@ -96,11 +96,16 @@
 </head>
 <body>
     <div class="receipt">
-        <div class="receipt-header">
-            <h3>🍰 Sweet Haven Bakeshop</h3>
-            <p><?= date('Y-m-d H:i:s', strtotime($receipt['date'])) ?></p>
-            <p>Cashier: <?= $receipt['staff'] ?></p>
-        </div>
+       <div class="receipt-header">
+    <h3>🍰 Bensan Bakeshop</h3>
+    <p><?= date('Y-m-d H:i:s', strtotime($receipt['date'])) ?></p>
+    <p>Cashier: <?= $receipt['staff'] ?></p>
+</div>
+
+<!-- Change footer if exists -->
+<div class="stock-update">
+    ✅ Thank you for shopping at Bensan Bakeshop!
+</div>
         
         <?php foreach($receipt['cart'] as $item): ?>
         <div class="item-row">
