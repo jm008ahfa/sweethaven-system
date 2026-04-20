@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Product - Bakeshop System</title>
+    <title>Add Product - Bensan Bakeshop</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -21,7 +21,7 @@
             overflow: hidden;
         }
         .form-header {
-            background: #ff6b35;
+            background: #228B22;
             color: white;
             padding: 20px;
             text-align: center;
@@ -47,7 +47,7 @@
         }
         input:focus, select:focus, textarea:focus {
             outline: none;
-            border-color: #ff6b35;
+            border-color: #228B22;
         }
         textarea {
             resize: vertical;
@@ -62,7 +62,7 @@
             margin: 5px;
         }
         .btn-primary {
-            background: #ff6b35;
+            background: #228B22;
             color: white;
         }
         .btn-secondary {
@@ -89,7 +89,7 @@
 <body>
     <div class="form-container">
         <div class="form-header">
-            <h2><i class="fas fa-plus-circle"></i> Add New Product</h2>
+            <h2><i class="fas fa-plus-circle"></i> Add New Product - Bensan Bakeshop</h2>
         </div>
         <div class="form-body">
             <?php if(session()->getFlashdata('error')): ?>
@@ -139,8 +139,12 @@
                 </div>
                 
                 <div style="text-align: center;">
-                    <button type="submit" class="btn btn-primary">💾 Save Product</button>
-                    <a href="<?= base_url('/products') ?>" class="btn btn-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Save Product
+                    </button>
+                    <a href="<?= base_url('/products') ?>" class="btn btn-secondary">
+                        <i class="fas fa-times"></i> Cancel
+                    </a>
                 </div>
             </form>
         </div>

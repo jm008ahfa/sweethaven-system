@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Product - Bakeshop System</title>
+    <title>Edit Product - Bensan Bakeshop</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -21,7 +21,7 @@
             overflow: hidden;
         }
         .form-header {
-            background: #ffc107;
+            background: #FFA500;
             color: #333;
             padding: 20px;
             text-align: center;
@@ -47,7 +47,7 @@
         }
         input:focus, select:focus, textarea:focus {
             outline: none;
-            border-color: #ffc107;
+            border-color: #FFA500;
         }
         textarea {
             resize: vertical;
@@ -62,21 +62,40 @@
             margin: 5px;
         }
         .btn-warning {
-            background: #ffc107;
+            background: #FFA500;
             color: #333;
         }
         .btn-secondary {
             background: #6c757d;
             color: white;
         }
+        .alert {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+        .ingredients-hint {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
     <div class="form-container">
         <div class="form-header">
-            <h2><i class="fas fa-edit"></i> Edit Product</h2>
+            <h2><i class="fas fa-edit"></i> Edit Product - Bensan Bakeshop</h2>
         </div>
         <div class="form-body">
+            <?php if(session()->getFlashdata('error')): ?>
+                <div class="alert alert-danger"><?= session()->getFlashdata('error') ?></div>
+            <?php endif; ?>
+            
             <form action="<?= base_url('/products/update/'.$product['id']) ?>" method="post">
                 <div class="form-group">
                     <label>Product Name *</label>
@@ -112,15 +131,19 @@
                 
                 <div class="form-group">
                     <label>Ingredients</label>
-                    <textarea name="ingredients" placeholder="List all ingredients..."><?= $product['ingredients'] ?? '' ?></textarea>
-                    <div class="ingredients-hint" style="font-size: 12px; color: #666; margin-top: 5px;">
-                        <i class="fas fa-info-circle"></i> Example: Flour, Sugar, Eggs, Butter, Baking Powder
+                    <textarea name="ingredients" placeholder="List all ingredients separated by commas..."><?= $product['ingredients'] ?? '' ?></textarea>
+                    <div class="ingredients-hint">
+                        <i class="fas fa-info-circle"></i> Example: Flour, Sugar, Eggs, Butter, Baking Powder, Vanilla Extract
                     </div>
                 </div>
                 
                 <div style="text-align: center;">
-                    <button type="submit" class="btn btn-warning">💾 Update Product</button>
-                    <a href="<?= base_url('/products') ?>" class="btn btn-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-warning">
+                        <i class="fas fa-save"></i> Update Product
+                    </button>
+                    <a href="<?= base_url('/products') ?>" class="btn btn-secondary">
+                        <i class="fas fa-times"></i> Cancel
+                    </a>
                 </div>
             </form>
         </div>
